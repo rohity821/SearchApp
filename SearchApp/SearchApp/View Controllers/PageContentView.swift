@@ -12,21 +12,23 @@ import Kingfisher
 protocol PageContentViewInterfaceProtocol where Self: UIViewController {
     
     var index: Int? { get set}
-    
-    func setupImage(imagePath: String)
+    var imagePath: String? { get set }
 }
 
 class PageContentView: UIViewController, PageContentViewInterfaceProtocol {
     
     @IBOutlet var imageView: UIImageView!
     var index: Int?
+    var imagePath: String?
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        imageView.frame = self.view.bounds
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if let imageStr = imagePath {
+            setupImage(imagePath: imageStr)
+        }
     }
     
-    func setupImage(imagePath: String) {
+    private func setupImage(imagePath: String) {
         let url = URL(string: imagePath)
         imageView.kf.indicatorType = .activity
         imageView.kf.setImage(with: url, options: [.transition(.fade(0.2))])
