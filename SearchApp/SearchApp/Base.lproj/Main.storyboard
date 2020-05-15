@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="H39-fa-Rm9">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Search-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SearchApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="cf8-wT-aqQ">
+                                <rect key="frame" x="0.0" y="88" width="414" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H0l-22-XAv" userLabel="Error View" customClass="ErrorView" customModule="SearchApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="144" width="414" height="718"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Oops! Something went wrong. Our Great minds are working on it." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVI-rK-UOc">
+                                        <rect key="frame" x="32" y="334" width="350" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="350" id="N79-J0-1c2"/>
+                                            <constraint firstAttribute="height" constant="50" id="y5z-Xc-tjD"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstItem="LVI-rK-UOc" firstAttribute="centerY" secondItem="H0l-22-XAv" secondAttribute="centerY" id="2Ae-kt-TW8"/>
+                                    <constraint firstItem="LVI-rK-UOc" firstAttribute="centerX" secondItem="H0l-22-XAv" secondAttribute="centerX" id="Net-B5-mxp"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="errorTextLbl" destination="LVI-rK-UOc" id="OLW-Bc-XT6"/>
+                                </connections>
+                            </view>
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TQn-Ji-VlG">
+                                <rect key="frame" x="0.0" y="144" width="414" height="752"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="UC1-9m-kFe">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="xdt-rk-faT">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="xTh-1B-d1y">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Fah-0R-kQ3"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="6Ny-e1-gri"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="cf8-wT-aqQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="1Dv-uU-IBS"/>
+                            <constraint firstItem="TQn-Ji-VlG" firstAttribute="top" secondItem="cf8-wT-aqQ" secondAttribute="bottom" id="5i8-3H-3SX"/>
+                            <constraint firstItem="TQn-Ji-VlG" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="6gY-sE-Wok"/>
+                            <constraint firstItem="H0l-22-XAv" firstAttribute="top" secondItem="cf8-wT-aqQ" secondAttribute="bottom" id="EH8-mC-FsP"/>
+                            <constraint firstItem="cf8-wT-aqQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="K31-P4-394"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="H0l-22-XAv" secondAttribute="bottom" id="PcE-Ow-qlx"/>
+                            <constraint firstItem="H0l-22-XAv" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aCP-Nq-DCN"/>
+                            <constraint firstItem="cf8-wT-aqQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="fXe-c5-Fw3"/>
+                            <constraint firstAttribute="bottom" secondItem="TQn-Ji-VlG" secondAttribute="bottom" id="pB7-VJ-QFp"/>
+                            <constraint firstItem="TQn-Ji-VlG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="qdM-Up-Lzg"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="H0l-22-XAv" secondAttribute="trailing" id="uva-Sz-avi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Search" id="SBm-9z-Qxm"/>
+                    <connections>
+                        <outlet property="errorView" destination="H0l-22-XAv" id="gcf-1s-X6k"/>
+                        <outlet property="imagesCollectionView" destination="TQn-Ji-VlG" id="4zT-hK-XpG"/>
+                        <outlet property="searchBar" destination="cf8-wT-aqQ" id="hrG-6s-YEw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="7ku-DU-hzq">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="H39-fa-Rm9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qId-ND-fbd">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="OwZ-fn-7e0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nAd-cf-kz6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+        </scene>
+    </scenes>
+</document>
