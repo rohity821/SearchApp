@@ -12,6 +12,7 @@ import Kingfisher
 
 class ImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,7 +21,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     func setImage(imagePath:String) {
         let url = URL(string: imagePath)
-        imageView.kf.setImage(with: url)
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(with: url, options: [.transition(.fade(0.2))])
     }
     
     override func prepareForReuse() {

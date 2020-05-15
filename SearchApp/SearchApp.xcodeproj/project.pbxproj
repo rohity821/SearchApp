@@ -24,6 +24,9 @@
 		96595A56246EA65400F4BEFB /* ImageSearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595A55246EA65400F4BEFB /* ImageSearchInteractor.swift */; };
 		96595A5B246EC2F100F4BEFB /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595A5A246EC2F100F4BEFB /* ImageCollectionViewCell.swift */; };
 		96595A5D246EC38600F4BEFB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595A5C246EC38600F4BEFB /* Constants.swift */; };
+		96595B49246EEF0E00F4BEFB /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595B48246EEF0E00F4BEFB /* ImagePreviewViewController.swift */; };
+		96595B4D246EF41E00F4BEFB /* PageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595B4C246EF41E00F4BEFB /* PageContentView.swift */; };
+		96595B4F246F14DC00F4BEFB /* PageContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96595B4E246F14DC00F4BEFB /* PageContentView.xib */; };
 		E80453EAEF9512B050FCCBC8 /* Pods_SearchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6697F2654BFA2D57531EAF71 /* Pods_SearchApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +66,9 @@
 		96595A55246EA65400F4BEFB /* ImageSearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSearchInteractor.swift; sourceTree = "<group>"; };
 		96595A5A246EC2F100F4BEFB /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		96595A5C246EC38600F4BEFB /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		96595B48246EEF0E00F4BEFB /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
+		96595B4C246EF41E00F4BEFB /* PageContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageContentView.swift; sourceTree = "<group>"; };
+		96595B4E246F14DC00F4BEFB /* PageContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PageContentView.xib; sourceTree = "<group>"; };
 		FC66D2EE5272135354A0A5B2 /* Pods-SearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchApp.release.xcconfig"; path = "Target Support Files/Pods-SearchApp/Pods-SearchApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,7 +124,7 @@
 		96595909246E82B900F4BEFB /* SearchApp */ = {
 			isa = PBXGroup;
 			children = (
-				96595A57246EB48200F4BEFB /* View Controller */,
+				96595A57246EB48200F4BEFB /* View Controllers */,
 				96595A54246EA64500F4BEFB /* Interactor */,
 				96595A51246EA62500F4BEFB /* Presenter */,
 				96595A4C246EA4C900F4BEFB /* Reachability */,
@@ -186,13 +192,16 @@
 			path = Interactor;
 			sourceTree = "<group>";
 		};
-		96595A57246EB48200F4BEFB /* View Controller */ = {
+		96595A57246EB48200F4BEFB /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				9659590E246E82B900F4BEFB /* ImageSearchViewController.swift */,
 				96595A5A246EC2F100F4BEFB /* ImageCollectionViewCell.swift */,
+				96595B48246EEF0E00F4BEFB /* ImagePreviewViewController.swift */,
+				96595B4C246EF41E00F4BEFB /* PageContentView.swift */,
+				96595B4E246F14DC00F4BEFB /* PageContentView.xib */,
 			);
-			path = "View Controller";
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		A83681ED34D56DB9D3A2A6C8 /* Pods */ = {
@@ -293,6 +302,7 @@
 				96595917246E82BB00F4BEFB /* LaunchScreen.storyboard in Resources */,
 				96595914246E82BB00F4BEFB /* Assets.xcassets in Resources */,
 				96595912246E82B900F4BEFB /* Main.storyboard in Resources */,
+				96595B4F246F14DC00F4BEFB /* PageContentView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +395,8 @@
 				96595A46246E903700F4BEFB /* ImageResponseModel.swift in Sources */,
 				96595A4B246E93FC00F4BEFB /* ImageSearchAPI.swift in Sources */,
 				96595A49246E90D100F4BEFB /* ImagesAPITask.swift in Sources */,
+				96595B49246EEF0E00F4BEFB /* ImagePreviewViewController.swift in Sources */,
+				96595B4D246EF41E00F4BEFB /* PageContentView.swift in Sources */,
 				96595A5D246EC38600F4BEFB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

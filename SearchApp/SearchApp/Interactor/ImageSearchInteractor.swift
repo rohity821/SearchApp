@@ -11,11 +11,27 @@ import Foundation
 enum SearchErrors: Error {
     case noInternet
     case parsingError
+    case noData
+    case empty
+    
+    public var errorDescription: String {
+        switch self {
+        case .noInternet:
+            return ErrorStrings.noInternetError
+        case .parsingError:
+            return ErrorStrings.somethingWentWrong
+        case .noData:
+            return ErrorStrings.noResultsFound
+        case .empty:
+            return ErrorStrings.startSearching
+        }
+    }
+    
 }
 
 enum ResultType {
     case success(imageModel: ImageResponseModel)
-    case failure(error:Error?)
+    case failure(error:SearchErrors?)
 }
 
 protocol ImageSearchInteractorDelegate {
@@ -68,13 +84,11 @@ class ImageSearchInteractor : NSObject, ImageSearchInteractorInterfaceProtocol  
             return
         }
         searchQueryTask.getSearchResults(searchTerm: finalQuery, page: page, onSuccess: { [weak self] (imageResponse) in
-            //Handle Success
             if let imgModel = imageResponse {
                 self?.delegate?.didFetchPhotos(result: .success(imageModel: imgModel))
             }
         }) { [weak self] (error) in
-            //Handle Error
-            self?.delegate?.didFetchPhotos(result: .failure(error: error))
+            self?.delegate?.didFetchPhotos(result: .failure(error: SearchErrors.parsingError))
         }
     }
     

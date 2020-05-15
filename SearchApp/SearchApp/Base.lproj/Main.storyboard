@@ -97,11 +97,28 @@
                     <connections>
                         <outlet property="errorView" destination="H0l-22-XAv" id="gcf-1s-X6k"/>
                         <outlet property="imagesCollectionView" destination="TQn-Ji-VlG" id="4zT-hK-XpG"/>
+                        <segue destination="gcf-5c-nYb" kind="show" identifier="detailSegue" id="Hkq-3z-ZhM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
+        </scene>
+        <!--Image Preview View Controller-->
+        <scene sceneID="xsH-s4-Z7r">
+            <objects>
+                <viewController id="gcf-5c-nYb" customClass="ImagePreviewViewController" customModule="SearchApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mgU-wc-YoV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="39A-O7-txW"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="lxX-U0-L28"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O6p-pu-M8X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1765.217391304348" y="137.94642857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7ku-DU-hzq">

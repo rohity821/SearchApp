@@ -19,13 +19,7 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     lazy var tapRecognizer: UITapGestureRecognizer = {
            var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
            return recognizer
-       }()
-    
-//    private var imagesArray: [String] = [] {
-//        didSet {
-//            toggleError(show: imagesArray.isEmpty ? true : false)
-//        }
-//    }
+    }()
     
     private func toggleError(show: Bool) {
         errorView.isHidden = !show
@@ -36,6 +30,7 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
         super.viewDidLoad()
         setupSearchBar()
         searchPresenter.presenterDelegate = self
+        showErrorView(error: .empty)
     }
     
     //MARK: Private Functions
@@ -48,8 +43,28 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
         searchController.searchBar.delegate = self
     }
     
-    private func showErrorView() {
-        
+    private func showErrorView(error: SearchErrors?) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.showErrorView(error: error)
+            }
+            return
+        }
+        imagesCollectionView.isHidden = true
+        errorView.isHidden = false
+        errorView?.configureErrorView(for: error)
+    }
+    
+    private func showAndReloadCollection() {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.showAndReloadCollection()
+            }
+            return
+        }
+        imagesCollectionView.isHidden = false
+        errorView.isHidden = true
+        imagesCollectionView.reloadData()
     }
 
     //MARK: UICollectionView datasource & delegates
@@ -80,7 +95,9 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         searchPresenter.fetchNextPageIfRequired(indexPath: indexPath)
     }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        searchPresenter.didSelectRow(atIndexpath: indexPath, viewController: self)
+    }
     
     //Mark: Private functions
     private func sizeForItem(collectionView: UICollectionView) -> CGSize {
@@ -90,21 +107,20 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
         let noOfPadding : CGFloat = noOfCells+1
         
         let itemW = (width - (noOfPadding * sidePadding))/noOfCells
-        let size = CGSize(width: itemW, height: itemW)
-        print("***** size of cell : \(size)")
-        return size
+        return CGSize(width: itemW, height: itemW)
     }
 }
 
 extension ImageSearchViewController: ImageSearchPresenterDelegate {
     func didFetchPhotos(result: ResultType) {
+        DispatchQueue.main.async {
+            UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        }
         switch result {
         case .success(imageModel: _):
-            DispatchQueue.main.async {
-                self.imagesCollectionView.reloadData()
-            }
-        case .failure(_):
-            self.showErrorView()
+            showAndReloadCollection()
+        case .failure(let error):
+            self.showErrorView(error: error)
         }
     }
 }
@@ -120,7 +136,6 @@ extension ImageSearchViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, !searchText.isEmpty {
             dismissKeyboard()
-
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
             searchPresenter.getDataWithSearchQuery(searchQuery: searchText)
         }

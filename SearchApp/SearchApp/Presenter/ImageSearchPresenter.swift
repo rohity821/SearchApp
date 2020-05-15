@@ -89,6 +89,10 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
             else {
                 imagesArray = model.hits
             }
+            if imagesArray.isEmpty {
+                presenterDelegate?.didFetchPhotos(result: .failure(error: SearchErrors.noData))
+                return
+            }
         case .failure(let error):
             print("error occured \(String(describing: error))")
         }
@@ -118,6 +122,8 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
     }
     
     func didSelectRow(atIndexpath: IndexPath, viewController: ImageSearchViewController) {
-        //TODO: Add implementation
+        let destinationController = ImagePreviewViewController()
+        destinationController.setImages(images:imagesArray, with: atIndexpath.row)
+        viewController.navigationController?.pushViewController(destinationController, animated: true)
     }
 }
