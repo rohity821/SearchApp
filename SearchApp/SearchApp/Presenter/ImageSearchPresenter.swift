@@ -122,8 +122,10 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
     }
     
     func didSelectRow(atIndexpath: IndexPath, viewController: ImageSearchViewController) {
-        let destinationController = ImagePreviewViewController()
-        destinationController.setImages(images:imagesArray, with: atIndexpath.row)
-        viewController.navigationController?.pushViewController(destinationController, animated: true)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let destinationController = storyboard.instantiateViewController(withIdentifier: "ImagePreviewViewController") as? ImagePreviewInterfaceProtocol {
+            destinationController.setImages(images:imagesArray, with: atIndexpath.row)
+            viewController.navigationController?.pushViewController(destinationController, animated: true)
+        }
     }
 }

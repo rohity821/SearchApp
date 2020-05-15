@@ -9,7 +9,6 @@
 import UIKit
 import Kingfisher
 
-
 class ImageCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var loadingView: UIActivityIndicatorView!

@@ -107,7 +107,7 @@
         <!--Image Preview View Controller-->
         <scene sceneID="xsH-s4-Z7r">
             <objects>
-                <viewController id="gcf-5c-nYb" customClass="ImagePreviewViewController" customModule="SearchApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ImagePreviewViewController" id="gcf-5c-nYb" customClass="ImagePreviewViewController" customModule="SearchApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mgU-wc-YoV">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
