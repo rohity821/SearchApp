@@ -16,6 +16,9 @@ struct ErrorStrings {
     static let noResultsFound = "Looks like you have searched for something unique!"
 }
 
+protocol ErrorViewInterfaceProtocol : class {
+    func configureErrorView(for error: SearchErrors?)
+}
 
 class ErrorView: UIView {
     
@@ -29,7 +32,7 @@ class ErrorView: UIView {
         super.awakeFromNib()
     }
     
-    public func configureErrorView(for error: SearchErrors?) {
+    func configureErrorView(for error: SearchErrors?) {
         guard let error = error else {
             errorTextLbl.text = ErrorStrings.somethingWentWrong
             return

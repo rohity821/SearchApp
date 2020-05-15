@@ -8,13 +8,17 @@
 
 import UIKit
 
-class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+protocol ImageSearchControllerInterfaceProtocol where Self: UIViewController {
+    var searchPresenter: ImageSearchPresenterInterfaceProtocol? { get set}
+}
+
+class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ImageSearchControllerInterfaceProtocol {
 
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var errorView: ErrorView!
     @IBOutlet var imagesCollectionView: UICollectionView!
     
-    var searchPresenter = ImageSearchPresenter(searchInteractor: ImageSearchInteractor())
+    var searchPresenter: ImageSearchPresenterInterfaceProtocol?
     
     lazy var tapRecognizer: UITapGestureRecognizer = {
            var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
@@ -29,7 +33,7 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSearchBar()
-        searchPresenter.presenterDelegate = self
+        searchPresenter?.presenterDelegate = self
         showErrorView(error: .empty)
     }
     
@@ -69,15 +73,15 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
 
     //MARK: UICollectionView datasource & delegates
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchPresenter.numberOfItemsInSection(section: section)
+        return searchPresenter?.numberOfItemsInSection(section: section) ?? 0
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return searchPresenter.numberOfSections(in: collectionView)
+        return searchPresenter?.numberOfSections(in: collectionView) ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as? ImageCollectionViewCell, let imageModel = searchPresenter.itemForRow(atIndexpath: indexPath) {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as? ImageCollectionViewCell, let imageModel = searchPresenter?.itemForRow(atIndexpath: indexPath) {
             cell.setImage(imagePath: imageModel.previewURL)
             return cell
         }
@@ -93,10 +97,10 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        searchPresenter.fetchNextPageIfRequired(indexPath: indexPath)
+        searchPresenter?.fetchNextPageIfRequired(indexPath: indexPath)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        searchPresenter.didSelectRow(atIndexpath: indexPath, viewController: self)
+        searchPresenter?.didSelectRow(atIndexpath: indexPath, viewController: self)
     }
     
     //Mark: Private functions
@@ -137,7 +141,7 @@ extension ImageSearchViewController : UISearchBarDelegate {
         if let searchText = searchBar.text, !searchText.isEmpty {
             dismissKeyboard()
             UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            searchPresenter.getDataWithSearchQuery(searchQuery: searchText)
+            searchPresenter?.getDataWithSearchQuery(searchQuery: searchText)
         }
     }
 

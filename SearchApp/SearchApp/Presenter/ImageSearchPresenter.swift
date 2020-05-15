@@ -11,6 +11,8 @@ import UIKit
 
 protocol ImageSearchPresenterInterfaceProtocol {
     
+    var presenterDelegate : ImageSearchPresenterDelegate? { get set }
+    
     /**
             Add Documentation
      */
@@ -22,7 +24,7 @@ protocol ImageSearchPresenterInterfaceProtocol {
     func getNextPage()
     
     /**
-      This is the datasource method for view controller's tableView. This is called from tableview's method numberofRowsInSection. Method returns an integer value equal to number of rows in section.
+      This is the datasource method for view controller's CollectionView. This is called from collectionView's method numberOfItemsInSection. Method returns an integer value equal to number of rows in section.
       */
     func numberOfItemsInSection(section: Int) -> Int
     
@@ -32,14 +34,19 @@ protocol ImageSearchPresenterInterfaceProtocol {
     func numberOfSections(in collectionView: UICollectionView) -> Int
      
      /**
-      This is the datasource method for view controller's tableView. This is called from tableview's method cellforRowAtIndexPath. Method takes current index path as param and returns ImageModel to fill information on that cell.
+      This is the datasource method for view controller's Collectionview. This is called from collectionView''s method cellForItemAt. Method takes current index path as param and returns ImageModel to fill information on that cell.
       */
-     func itemForRow(atIndexpath indexPath:IndexPath) -> ImageDataModel?
+    func itemForRow(atIndexpath indexPath:IndexPath) -> ImageDataModel?
     
      /**
-      This method is called user taps on a cell in tableview. Method takes indexpath and view controller as parameter. And correspondingly navigates to another view.
+      This method is called user taps on a cell in collectionView. Method takes indexpath and view controller as parameter. And correspondingly navigates to another view.
       */
-     func didSelectRow(atIndexpath : IndexPath, viewController:ImageSearchViewController)
+    func didSelectRow(atIndexpath : IndexPath, viewController:ImageSearchViewController)
+    
+    /**
+    This method is used to fetch next page when user have scrolled till last - 2 index
+    */
+    func fetchNextPageIfRequired(indexPath: IndexPath)
 }
 
 protocol ImageSearchPresenterDelegate {

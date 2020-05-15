@@ -61,8 +61,11 @@ class ImageSearchInteractor : NSObject, ImageSearchInteractorInterfaceProtocol  
     var page : Int = 0
     var delegate : ImageSearchInteractorDelegate?
     
-    let searchQueryTask = ImageAPITask()
+    let searchQueryTask: ImageAPITaskInterfaceProtocol
     
+    init(searchQueryTask: ImageAPITaskInterfaceProtocol) {
+        self.searchQueryTask = searchQueryTask
+    }
     
     func getResultsForSearch(searchQuery:String) {
         page = 1

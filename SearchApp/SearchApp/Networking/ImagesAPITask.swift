@@ -19,22 +19,29 @@ class ImageAPITask : ImageAPITaskInterfaceProtocol {
     let defaultSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?
     
+    var parser: Parser
+    var baseUrl: String
+    
+    init(parser: Parser, url: String) {
+        self.parser = parser
+        baseUrl = url
+    }
+    
     var imageResults: ImageResponseModel?
     
     let perPage = 40
     
     func getSearchResults(searchTerm: String, page:Int,onSuccess:@escaping (ImageResponseModel?)->Void, onFailure:@escaping (Error?)->Void) {
         dataTask?.cancel()
-        if var urlComponents = URLComponents(string: ImageSearchAPI.imageSearchUrl) {
+        if var urlComponents = URLComponents(string: baseUrl) {
             urlComponents.query = "key=\(apiKey)&image_type=photo&pretty=true&q=\(searchTerm)&per_page=\(perPage)&page=\(page)"
             guard let url = urlComponents.url else { return }
             
-            dataTask = defaultSession.dataTask(with: url) { data, response, error in
-                defer { self.dataTask = nil }
+            dataTask = defaultSession.dataTask(with: url) { [weak self] (data, response, error) in
+                defer { self?.dataTask = nil }
                 if let data = data, let response = response as? HTTPURLResponse, response.statusCode == 200 {
                     do {
-                    let decoder = JSONDecoder()
-                    let parsedModels = try decoder.decode(ImageResponseModel.self, from: data)
+                        let parsedModels = try self?.parser.parse(data: data)
                         onSuccess(parsedModels)
                     }
                     catch let parseError as NSError {
