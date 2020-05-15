@@ -10,9 +10,6 @@ import Foundation
 
 class ReachabilityManager: NSObject {
     static  let shared = ReachabilityManager()
-    var isNetworkAvailable : Bool {
-        return reachabilityStatus != .none
-    }
     private var reachabilityStatus: Reachability.Connection = .none
     private let reachability = Reachability()!
     
@@ -23,6 +20,10 @@ class ReachabilityManager: NSObject {
         }catch{
             print("could not start reachability notifier")
         }
+    }
+    
+    func isNetworkReachable() -> Bool {
+        return reachability.connection != .none
     }
     
     @objc func reachabilityChanged(notification: Notification) {

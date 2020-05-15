@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol ImageSearchPresenterInterfaceProtocol {
     
@@ -23,7 +24,12 @@ protocol ImageSearchPresenterInterfaceProtocol {
     /**
       This is the datasource method for view controller's tableView. This is called from tableview's method numberofRowsInSection. Method returns an integer value equal to number of rows in section.
       */
-     func numberOfRows() -> Int
+    func numberOfItemsInSection(section: Int) -> Int
+    
+    /**
+           Add Documentation
+    */
+    func numberOfSections(in collectionView: UICollectionView) -> Int
      
      /**
       This is the datasource method for view controller's tableView. This is called from tableview's method cellforRowAtIndexPath. Method takes current index path as param and returns ImageModel to fill information on that cell.
@@ -56,6 +62,7 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
     }
     
     func getDataWithSearchQuery(searchQuery: String) {
+        clearPreviousData()
         self.searchQuery = searchQuery
         searchInteractor?.getResultsForSearch(searchQuery: searchQuery)
     }
@@ -67,19 +74,33 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
         searchInteractor?.getNextPageForSearch(searchQuery: searchQuery)
     }
     
+    private func clearPreviousData() {
+        searchQuery = ""
+        imagesArray.removeAll()
+    }
+    
     //Mark : ImageSearchInteractorDelegate
     func didFetchPhotos(result: ResultType) {
         switch result {
         case .success(imageModel: let model):
-            imagesArray = model.hits
+            if imagesArray.count > 0 {
+                imagesArray += model.hits
+            }
+            else {
+                imagesArray = model.hits
+            }
         case .failure(let error):
             print("error occured \(String(describing: error))")
         }
         presenterDelegate?.didFetchPhotos(result: result)
     }
     
-    func numberOfRows() -> Int {
+    func numberOfItemsInSection(section: Int) -> Int {
         return imagesArray.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
     func itemForRow(atIndexpath indexPath: IndexPath) -> ImageDataModel? {
@@ -88,6 +109,12 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
             imgModel = imagesArray[indexPath.row]
         }
         return imgModel
+    }
+    
+    func fetchNextPageIfRequired(indexPath: IndexPath) {
+        if indexPath.row == imagesArray.count-2 {
+            getNextPage()
+        }
     }
     
     func didSelectRow(atIndexpath: IndexPath, viewController: ImageSearchViewController) {

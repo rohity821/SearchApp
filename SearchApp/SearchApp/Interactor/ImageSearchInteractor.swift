@@ -54,7 +54,7 @@ class ImageSearchInteractor : NSObject, ImageSearchInteractorInterfaceProtocol  
     }
     
     func getNextPageForSearch(searchQuery:String) {
-        if !ReachabilityManager.shared.isNetworkAvailable {
+        if !ReachabilityManager.shared.isNetworkReachable() {
             //It is returned because pagination wont work when network is not available.
             return
         }
@@ -67,20 +67,14 @@ class ImageSearchInteractor : NSObject, ImageSearchInteractorInterfaceProtocol  
         if finalQuery.isEmpty {
             return
         }
-        
-        if !ReachabilityManager.shared.isNetworkAvailable {
-            //TODO: Handle No network condition
-        }
-        else {
-            searchQueryTask.getSearchResults(searchTerm: finalQuery, page: page, onSuccess: { [weak self] (imageResponse) in
-                //Handle Success
-                if let imgModel = imageResponse {
-                    self?.delegate?.didFetchPhotos(result: .success(imageModel: imgModel))
-                }
-            }) { [weak self] (error) in
-                //Handle Error
-                self?.delegate?.didFetchPhotos(result: .failure(error: error))
+        searchQueryTask.getSearchResults(searchTerm: finalQuery, page: page, onSuccess: { [weak self] (imageResponse) in
+            //Handle Success
+            if let imgModel = imageResponse {
+                self?.delegate?.didFetchPhotos(result: .success(imageModel: imgModel))
             }
+        }) { [weak self] (error) in
+            //Handle Error
+            self?.delegate?.didFetchPhotos(result: .failure(error: error))
         }
     }
     
