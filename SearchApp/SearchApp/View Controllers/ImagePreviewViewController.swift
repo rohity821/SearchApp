@@ -45,12 +45,12 @@ class ImagePreviewViewController: UIViewController, ImagePreviewInterfaceProtoco
     
     //MARK: Private helper functions
     private func addPageViewController() {
-           pageViewController.dataSource = self
-           addChild(pageViewController)
-           view.addSubview(pageViewController.view)
-           pageViewController.didMove(toParent: self)
-       }
-       
+        pageViewController.dataSource = self
+        addChild(pageViewController)
+        view.addSubview(pageViewController.view)
+        pageViewController.didMove(toParent: self)
+    }
+    
     private func configurePageContentController() -> PageContentViewInterfaceProtocol{
         let pageController = viewControllerAtIndex(index: currentPageIndex)
         self.pageViewController.setViewControllers([pageController], direction: .forward, animated: false, completion: nil)
@@ -64,7 +64,7 @@ class ImagePreviewViewController: UIViewController, ImagePreviewInterfaceProtoco
         pageController.imagePath = imageModel.largeImageURL
         return pageController
     }
-
+    
 }
 
 //MARK: UIPageViewControllerDataSource methods
