@@ -151,7 +151,6 @@
 				96595913246E82BB00F4BEFB /* Assets.xcassets */,
 				96595915246E82BB00F4BEFB /* LaunchScreen.storyboard */,
 				96595918246E82BB00F4BEFB /* Info.plist */,
-				96595A42246E86FA00F4BEFB /* ErrorView.swift */,
 				96595A5C246EC38600F4BEFB /* Constants.swift */,
 			);
 			path = SearchApp;
@@ -205,6 +204,7 @@
 		96595A57246EB48200F4BEFB /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				96595A42246E86FA00F4BEFB /* ErrorView.swift */,
 				9659590E246E82B900F4BEFB /* ImageSearchViewController.swift */,
 				96595A5A246EC2F100F4BEFB /* ImageCollectionViewCell.swift */,
 				96595B48246EEF0E00F4BEFB /* ImagePreviewViewController.swift */,
