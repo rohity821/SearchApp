@@ -17,7 +17,6 @@ protocol Persister {
     ///   - value: the value which has to be saved
     ///   - key: they key for which value has to be saved
     ///   - shouldAppend: whether or not to append the values into existing saved values
-    /// - Returns: nil
     func saveData(value:String, forKey key:String, shouldAppend:Bool)
     
     /// A function that gets all the saved values for a given key from persistance

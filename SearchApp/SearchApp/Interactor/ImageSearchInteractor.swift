@@ -9,51 +9,31 @@
 import Foundation
 import Reachability
 
-enum SearchErrors: Error {
-    case noInternet
-    case parsingError
-    case noData
-    case empty
-    
-    public var errorDescription: String {
-        switch self {
-        case .noInternet:
-            return ErrorStrings.noInternetError
-        case .parsingError:
-            return ErrorStrings.somethingWentWrong
-        case .noData:
-            return ErrorStrings.noResultsFound
-        case .empty:
-            return ErrorStrings.startSearching
-        }
-    }
-    
-}
-
-enum ResultType {
-    case success(imageModel: ImageResponseModel)
-    case failure(error:SearchErrors?)
-}
-
 protocol ImageSearchInteractorDelegate {
-    /**
-     delegate method used to notify the class implementing it that the data is fetched. Result depends on the ResultType enum. if result is success, it will contain an object of image Response model. In case of error, it will have an error object
-     */
+    
+    /// delegate method used to notify the class implementing it that the data is fetched. Result depends on the ResultType enum. if result is success, it will contain an object of image Response model. In case of error, it will have an error object
+    ///
+    /// - Parameters:
+    ///   - result: ResultType enum. if result is success, it will contain an object of image Response model. In case of error, it will have an error object
     func didFetchPhotos(result: ResultType)
 }
 
 protocol ImageSearchInteractorInterfaceProtocol {
     
+    
     var delegate : ImageSearchInteractorDelegate? { get set }
     
-    /**
-           Add Documentation
-    */
+   /// Use this method to fetch results for users search query.
+    ///
+    /// - Parameters:
+    ///   - searchQuery: The search query entered by user for searching.
     func getResultsForSearch(searchQuery:String)
     
-    /**
-           Add Documentation
-    */
+    
+    /// Use this method to get next page for your search query.
+    ///
+    /// - Parameters:
+    ///   - searchQuery: The search query entered by user for searching.
     func getNextPageForSearch(searchQuery:String)
 }
 
@@ -80,6 +60,7 @@ class ImageSearchInteractor: ImageSearchInteractorInterfaceProtocol  {
         getResultsForSearch(searchQuery: searchQuery, page: page)
     }
     
+    //MARK: private functions
     private func getResultsForSearch(searchQuery:String, page:Int) {
         let finalQuery = searchQuery.replacingOccurrences(of: " ", with: "+")
         if finalQuery.isEmpty {

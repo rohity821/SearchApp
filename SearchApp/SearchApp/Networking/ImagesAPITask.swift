@@ -9,6 +9,13 @@
 import Foundation
 
 protocol ImageAPITaskInterfaceProtocol : class {
+    /// Use this function to get the search results from network. This method requires search term and page as the api supports pagination. Returns success or failure based on the network result.
+    ///
+    /// - Parameters:
+    ///   - searchTerm: the search term entered by user.
+    ///   - page: the page which should be fetch. 1 if it is a fresh or new search and increased accordingly if any request is made for same search term.
+    ///   - onSuccess: The completion block which will be called if the network call is successful and it will give object of ImageResponseModel.
+    ///   - onFailure: the block which gets called when api calls fails due to any reason. Gives Error object.
     func getSearchResults(searchTerm: String, page:Int, onSuccess:@escaping (ImageResponseModel?)->Void, onFailure:@escaping (Error?)->Void)
 }
 
@@ -29,7 +36,7 @@ class ImageAPITask : ImageAPITaskInterfaceProtocol {
     
     var imageResults: ImageResponseModel?
     
-    let perPage = 40
+    let perPage = 30
     
     func getSearchResults(searchTerm: String, page:Int,onSuccess:@escaping (ImageResponseModel?)->Void, onFailure:@escaping (Error?)->Void) {
         dataTask?.cancel()

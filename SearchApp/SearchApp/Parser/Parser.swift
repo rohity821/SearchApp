@@ -9,6 +9,12 @@
 import Foundation
 
 protocol Parser {
+    /// This function parse the given data into ImageResponseModel and throws a error if it fails to do so.
+    ///
+    /// - Parameters:
+    ///   - data: Object of Data Type, mostly network response data.
+    ///
+    /// - Returns: ImageResponseModel object, which contains the ImageDataModel objects and other neccessary information.
     func parse(data: Data) throws -> ImageResponseModel
 }
 

@@ -7,27 +7,35 @@
 //
 
 import Foundation
+import UIKit
 
 protocol SuggestionsPresenterInterfaceProtocol {
     
+    /// This method tells whether we can show suggestions or not.
+    ///
+    /// - Returns: a boolen value indicating whether or not we can show the suggestions.
     func canDisplaySuggestions() -> Bool
     
+    /// This method makes the request to get  the suggestions saved in persistance.
+    ///
     func getDataForSuggestions()
     
-    /**
-      This is the datasource method for view controller's tableView. This is called from tableview's method numberofRowsInSection. Method returns an integer value equal to number of rows in section.
-      */
+    /// This is the datasource method for view controller's tableView. This is called from tableview's method numberofRowsInSection. Method returns an integer value equal to number of rows in section.
+    /// - Returns: an integer, which is the number of rows which has to be shown
      func numberOfRows() -> Int
      
-     /**
-      This is the datasource method for view controller's tableView. This is called from tableview's method cellforRowAtIndexPath. Method takes current index path as param and returns ImageModel to fill information on that cell.
-      */
+    /// This is the datasource method for view controller's tableView. This is called from tableview's method cellforRowAtIndexPath. Method takes current index path as param and returns ImageModel to fill information on that cell.
+    ///
+    /// - Parameters:
+    ///   - indexPath: index path of the cell for which cellForRow is called.
      func itemForRow(atIndexpath indexPath:IndexPath) -> String?
     
-     /**
-      This method is called user taps on a cell in tableview. Method takes indexpath and view controller as parameter. And correspondingly navigates to another view.
-      */
-    func didSelectRow(atIndexpath : IndexPath, view:SuggestionsView)
+    /// This method is called user taps on a cell in tableview . Method takes indexpath and view  as parameter.
+    ///
+    /// - Parameters:
+    ///   - atIndexpath: index path of the selected cell.
+    ///   - view: Object of UIView which is used to show tableview .
+    func didSelectRow(atIndexpath : IndexPath, view: UIView)
 }
 
 protocol SuggestionPresenterDelegate {
@@ -47,6 +55,7 @@ class SuggestionTablePresenter: SuggestionsPresenterInterfaceProtocol {
         getDataForSuggestions()
     }
     
+    //MARK: SuggestionsPresenterInterfaceProtocol methods
     func canDisplaySuggestions() -> Bool {
         return suggestions.count > 0
     }
@@ -59,7 +68,7 @@ class SuggestionTablePresenter: SuggestionsPresenterInterfaceProtocol {
         return suggestions.count
     }
     
-    func didSelectRow(atIndexpath: IndexPath, view: SuggestionsView) {
+    func didSelectRow(atIndexpath: IndexPath, view: UIView) {
         guard atIndexpath.row < suggestions.count  else {
             return
         }

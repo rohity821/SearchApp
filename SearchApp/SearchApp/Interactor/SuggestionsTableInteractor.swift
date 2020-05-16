@@ -9,6 +9,11 @@
 import Foundation
 
 protocol SuggestionsInteractorInterfaceProtocol {
+    /// This method is used to get data from the persister about the suggestions stored.
+    ///
+    /// - Parameters:
+    ///   - key: the key for which the suggestions are stored in persistance.
+    /// - Returns: [String] - this method returns an array of string values that are the previous 10 suggestions from user's sucessful search.
     func getData(for key:String) -> [String]
 }
 
