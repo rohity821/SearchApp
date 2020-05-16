@@ -31,6 +31,4 @@ class PersistanceTask: Persister {
     func getDataForKey(key: String) -> [String]? {
         return standardUserDefaults.array(forKey: key) as? [String]
     }
-    
-    
 }
