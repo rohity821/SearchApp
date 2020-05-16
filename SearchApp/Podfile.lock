@@ -2,17 +2,27 @@ PODS:
   - Kingfisher (5.14.0):
     - Kingfisher/Core (= 5.14.0)
   - Kingfisher/Core (5.14.0)
+  - NVActivityIndicatorView (4.8.0):
+    - NVActivityIndicatorView/Presenter (= 4.8.0)
+  - NVActivityIndicatorView/Presenter (4.8.0)
+  - ReachabilitySwift (5.0.0)
 
 DEPENDENCIES:
   - Kingfisher
+  - NVActivityIndicatorView
+  - ReachabilitySwift
 
 SPEC REPOS:
   trunk:
     - Kingfisher
+    - NVActivityIndicatorView
+    - ReachabilitySwift
 
 SPEC CHECKSUMS:
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
+  NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
 
-PODFILE CHECKSUM: 77ca181ebd34ffdda9dc6dff881b82e8313ff7b8
+PODFILE CHECKSUM: 00259de107ffe464ae791074a5aa94f84cc997c8
 
 COCOAPODS: 1.9.1

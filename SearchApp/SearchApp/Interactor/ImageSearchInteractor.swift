@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Reachability
 
 enum SearchErrors: Error {
     case noInternet
@@ -56,15 +57,17 @@ protocol ImageSearchInteractorInterfaceProtocol {
     func getNextPageForSearch(searchQuery:String)
 }
 
-class ImageSearchInteractor : NSObject, ImageSearchInteractorInterfaceProtocol  {
+class ImageSearchInteractor: ImageSearchInteractorInterfaceProtocol  {
     
     var page : Int = 0
     var delegate : ImageSearchInteractorDelegate?
     
     let searchQueryTask: ImageAPITaskInterfaceProtocol
+    let persister: Persister
     
-    init(searchQueryTask: ImageAPITaskInterfaceProtocol) {
+    init(searchQueryTask: ImageAPITaskInterfaceProtocol, persister: Persister) {
         self.searchQueryTask = searchQueryTask
+        self.persister = persister
     }
     
     func getResultsForSearch(searchQuery:String) {
@@ -73,10 +76,6 @@ class ImageSearchInteractor : NSObject, ImageSearchInteractorInterfaceProtocol  
     }
     
     func getNextPageForSearch(searchQuery:String) {
-        if !ReachabilityManager.shared.isNetworkReachable() {
-            //It is returned because pagination wont work when network is not available.
-            return
-        }
         page = page+1
         getResultsForSearch(searchQuery: searchQuery, page: page)
     }
@@ -89,6 +88,7 @@ class ImageSearchInteractor : NSObject, ImageSearchInteractorInterfaceProtocol  
         searchQueryTask.getSearchResults(searchTerm: finalQuery, page: page, onSuccess: { [weak self] (imageResponse) in
             if let imgModel = imageResponse {
                 self?.delegate?.didFetchPhotos(result: .success(imageModel: imgModel))
+                self?.persister.saveData(value: finalQuery, forKey: Constants.persistanceKey, shouldAppend: true)
             }
         }) { [weak self] (error) in
             self?.delegate?.didFetchPhotos(result: .failure(error: SearchErrors.parsingError))

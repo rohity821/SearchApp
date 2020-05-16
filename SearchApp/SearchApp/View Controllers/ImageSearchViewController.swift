@@ -7,42 +7,116 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
+import Reachability
 
 protocol ImageSearchControllerInterfaceProtocol where Self: UIViewController {
-    var searchPresenter: ImageSearchPresenterInterfaceProtocol? { get set}
+    
+    var appBuilder: AppBuilder? { get set }
+    var searchPresenter: ImageSearchPresenterInterfaceProtocol? { get set }
 }
 
 class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ImageSearchControllerInterfaceProtocol {
-
+    
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var errorView: ErrorView!
     @IBOutlet var imagesCollectionView: UICollectionView!
-    
-    var searchPresenter: ImageSearchPresenterInterfaceProtocol?
-    
-    lazy var tapRecognizer: UITapGestureRecognizer = {
-           var recognizer = UITapGestureRecognizer(target:self, action: #selector(dismissKeyboard))
-           return recognizer
-    }()
-    
-    private func toggleError(show: Bool) {
-        errorView.isHidden = !show
-        imagesCollectionView.isHidden = show
+    @IBOutlet var suggestionsView: SuggestionsView!
+    private var reachability: Reachability?
+    private var isReachable = true
+    private var controllerState: SearchControllerState? {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.configureViewAsPerState()
+            }
+        }
     }
+    var searchPresenter: ImageSearchPresenterInterfaceProtocol?
+    var appBuilder: AppBuilder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        do {
+        reachability = try Reachability()
+        } catch {
+            debugPrint("Error configuring reachability")
+        }
+        controllerState = .showEmptyScreen
         setupSearchBar()
+        suggestionsView.presenter = appBuilder?.getDependencyForSuggestionsView(suggestionView: suggestionsView)
+        suggestionsView.delegate = self
         searchPresenter?.presenterDelegate = self
         showErrorView(error: .empty)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+        do{
+          try reachability?.startNotifier()
+        }catch{
+          print("could not start reachability notifier")
+        }
+    }
+    
+    deinit {
+        reachability?.stopNotifier()
+        NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
+    }
+    
+    @objc func reachabilityChanged(note: Notification) {
+        if let reachability = note.object as? Reachability {
+            switch reachability.connection {
+            case .wifi,.cellular:
+                isReachable = true
+            case .unavailable, .none:
+                isReachable = false
+            }
+        }
+    }
+    
     //MARK: Private Functions
+    
+    private func configureViewAsPerState() {
+        guard let controllerState = controllerState else {
+            return
+        }
+        switch controllerState {
+        case .showEmptyScreen:
+            showErrorView(error: .empty)
+            hideLoadingIndicator()
+            hideView(hideErrorView: false, hideSuggestionsView: true, hideColletionView: true)
+        case .showError(let error):
+            hideLoadingIndicator()
+            showErrorView(error: error)
+            hideView(hideErrorView: false, hideSuggestionsView: true, hideColletionView: true)
+        case .showResults:
+            hideLoadingIndicator()
+            reloadCollectionView()
+            hideView(hideErrorView: true, hideSuggestionsView: true, hideColletionView: false)
+        case .showSuggestions:
+            hideLoadingIndicator()
+            reloadSuggestions()
+            hideView(hideErrorView: true, hideSuggestionsView: false, hideColletionView:true)
+        case .showLoadingIndicator:
+            suggestionsView?.isHidden = true
+            showLoadingIndicator()
+        }
+    }
+    
+    private func hideView(hideErrorView: Bool, hideSuggestionsView: Bool, hideColletionView: Bool) {
+        errorView.isHidden = hideErrorView
+        suggestionsView?.isHidden = hideSuggestionsView
+        imagesCollectionView.isHidden = hideColletionView
+    }
+    
     private func setupSearchBar() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Images"
+        searchController.searchBar.placeholder = Constants.searchBarPlaceholder
         navigationItem.searchController = searchController
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         definesPresentationContext = true
         searchController.searchBar.delegate = self
     }
@@ -59,16 +133,47 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
         errorView?.configureErrorView(for: error)
     }
     
-    private func showAndReloadCollection() {
+    private func reloadCollectionView() {
         if !Thread.isMainThread {
             DispatchQueue.main.async { [weak self] in
-                self?.showAndReloadCollection()
+                self?.reloadCollectionView()
             }
             return
         }
-        imagesCollectionView.isHidden = false
-        errorView.isHidden = true
         imagesCollectionView.reloadData()
+    }
+    
+    private func reloadSuggestions() {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async { [weak self] in
+                self?.reloadSuggestions()
+            }
+            return
+        }
+        if suggestionsView.canDisplaySuggestions() {
+            suggestionsView?.loadSuggestions()
+        } else {
+            controllerState = .showEmptyScreen
+        }
+    }
+    
+    private func sizeForItem(collectionView: UICollectionView) -> CGSize {
+        let width = collectionView.frame.size.width
+        let sidePadding : CGFloat = 8.0
+        let noOfCells : CGFloat = 2
+        let noOfPadding : CGFloat = noOfCells+1
+        
+        let itemW = (width - (noOfPadding * sidePadding))/noOfCells
+        return CGSize(width: itemW, height: itemW)
+    }
+    
+    private func startSearchFor(searchText: String) {
+        if !isReachable {
+            controllerState = .showError(error: .noInternet)
+            return
+        }
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        searchPresenter?.getDataWithSearchQuery(searchQuery: searchText)
     }
 
     //MARK: UICollectionView datasource & delegates
@@ -81,11 +186,11 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath) as? ImageCollectionViewCell, let imageModel = searchPresenter?.itemForRow(atIndexpath: indexPath) {
-            cell.setImage(imagePath: imageModel.previewURL)
-            return cell
+         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath)
+        if let imageCell = cell as? ImageCollectionViewCell, let imageModel = searchPresenter?.itemForRow(atIndexpath: indexPath) {
+            imageCell.setImage(imagePath: imageModel.previewURL)
         }
-        return UICollectionViewCell()
+            return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -97,38 +202,67 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if !isReachable {
+            return
+        }
         searchPresenter?.fetchNextPageIfRequired(indexPath: indexPath)
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchPresenter?.didSelectRow(atIndexpath: indexPath, viewController: self)
     }
-    
-    //Mark: Private functions
-    private func sizeForItem(collectionView: UICollectionView) -> CGSize {
-        let width = collectionView.frame.size.width
-        let sidePadding : CGFloat = 8.0
-        let noOfCells : CGFloat = 2
-        let noOfPadding : CGFloat = noOfCells+1
-        
-        let itemW = (width - (noOfPadding * sidePadding))/noOfCells
-        return CGSize(width: itemW, height: itemW)
-    }
 }
 
-extension ImageSearchViewController: ImageSearchPresenterDelegate {
+extension ImageSearchViewController: ImageSearchPresenterDelegate, SuggestionsTableDelegate {
     func didFetchPhotos(result: ResultType) {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
         }
         switch result {
         case .success(imageModel: _):
-            showAndReloadCollection()
+            controllerState = .showResults
         case .failure(let error):
-            self.showErrorView(error: error)
+            if let err = error {
+                controllerState = .showError(error: err)
+            }
         }
+    }
+    
+    func didSelectSuggestion(suggestions: String, for view: UIView) {
+        dismissKeyboard()
+        controllerState = .showLoadingIndicator
+        startSearchFor(searchText: suggestions)
     }
 }
 
+extension ImageSearchViewController {
+    //MARK: Loading Indicator
+    /**
+     This methods show blocking loading indicator on view.
+    */
+    private func showLoadingIndicator() {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.showLoadingIndicator()
+            }
+            return
+        }
+        let activityData = ActivityData(size: nil, message: nil, messageFont: nil, messageSpacing: nil, type: .ballClipRotateMultiple, color: nil, padding: nil, displayTimeThreshold: nil, minimumDisplayTime: nil, backgroundColor: nil, textColor: nil)
+        NVActivityIndicatorPresenter.sharedInstance.startAnimating(activityData, nil)
+    }
+    
+    /**
+     This method hides loading indicator and ends refresh control animation whichever applicable, if it is not called on main thread it checks and call itself on main thread.
+     */
+    private func hideLoadingIndicator() {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.hideLoadingIndicator()
+            }
+            return
+        }
+        NVActivityIndicatorPresenter.sharedInstance.stopAnimating(nil)
+    }
+}
 
 extension ImageSearchViewController : UISearchBarDelegate {
 
@@ -140,20 +274,18 @@ extension ImageSearchViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text, !searchText.isEmpty {
             dismissKeyboard()
-            UIApplication.shared.isNetworkActivityIndicatorVisible = true
-            searchPresenter?.getDataWithSearchQuery(searchQuery: searchText)
+            controllerState = .showLoadingIndicator
+            startSearchFor(searchText: searchText)
+        }
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if let presenter = searchPresenter {
+            controllerState = presenter.canShowResults() ? .showResults : .showEmptyScreen
         }
     }
 
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        // Add your search logic here
-    }
-
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        view.addGestureRecognizer(tapRecognizer)
-    }
-
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        view.removeGestureRecognizer(tapRecognizer)
+        controllerState = .showSuggestions
     }
 }

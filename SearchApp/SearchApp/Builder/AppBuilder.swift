@@ -9,19 +9,36 @@
 import Foundation
 import UIKit
 
-struct AppBuilder {
+protocol AppBuilder {
+    
+    func getRootViewController() -> UINavigationController?
+    
+    func getDependencyForSuggestionsView(suggestionView: SuggestionsView) -> SuggestionsPresenterInterfaceProtocol
+}
+
+class Builder: AppBuilder {
+    
     func getRootViewController() -> UINavigationController? {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let rootController = storyboard.instantiateViewController(withIdentifier: "ImageSearchViewController") as? ImageSearchControllerInterfaceProtocol
         
         let apiTask = ImageAPITask(parser: ImageResponseParser(), url: ImageSearchAPI.imageSearchUrl)
-        let interactor = ImageSearchInteractor(searchQueryTask: apiTask)
+        let persitanceTask = PersistanceTask()
+        let interactor = ImageSearchInteractor(searchQueryTask: apiTask, persister:persitanceTask)
         let presenter = ImageSearchPresenter(searchInteractor: interactor)
         rootController?.searchPresenter = presenter
+        rootController?.appBuilder = self
 
         if let rootVC = rootController {
          return UINavigationController(rootViewController: rootVC)
         }
         return nil
+    }
+    
+    func getDependencyForSuggestionsView(suggestionView: SuggestionsView) -> SuggestionsPresenterInterfaceProtocol {
+        let persister = PersistanceTask()
+        let suggestionsInteractor = SuggestionsTableInteractor(persister: persister)
+        let suggestionsPresenter = SuggestionTablePresenter(interactor: suggestionsInteractor, delegate: suggestionView)
+        return suggestionsPresenter
     }
 }

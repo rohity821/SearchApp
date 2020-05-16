@@ -18,6 +18,8 @@ protocol ImageSearchPresenterInterfaceProtocol {
      */
     func getDataWithSearchQuery(searchQuery:String)
     
+    func canShowResults() -> Bool
+    
     /**
            Add Documentation
     */
@@ -72,6 +74,10 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
         clearPreviousData()
         self.searchQuery = searchQuery
         searchInteractor?.getResultsForSearch(searchQuery: searchQuery)
+    }
+    
+    func canShowResults() -> Bool {
+        return imagesArray.count > 0
     }
     
     func getNextPage() {

@@ -8,7 +8,20 @@
 
 import Foundation
 
+
+enum SearchControllerState {
+    case showResults
+    case showSuggestions
+    case showError(error: SearchErrors)
+    case showEmptyScreen
+    case showLoadingIndicator
+}
+
 struct Constants {
     static let cellIdentifier = "imageCell"
     static let placeholderImage = "placeholder"
+    static let plistName = "SearchApp"
+    static let persistanceKey = "SearchTerms"
+    static let suggestionsCell = "suggestionsCell"
+    static let searchBarPlaceholder = "Search Images"
 }
