@@ -33,6 +33,7 @@
 		96595C72246FA2EF00F4BEFB /* Persister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C71246FA2EF00F4BEFB /* Persister.swift */; };
 		96595C76246FA40300F4BEFB /* PersistanceTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C75246FA40200F4BEFB /* PersistanceTask.swift */; };
 		96595C78246FE0AC00F4BEFB /* CollectionViewMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C77246FE0AC00F4BEFB /* CollectionViewMethods.swift */; };
+		96595C7C246FE90200F4BEFB /* PersistanceTaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C7B246FE90200F4BEFB /* PersistanceTaskTests.swift */; };
 		E80453EAEF9512B050FCCBC8 /* Pods_SearchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6697F2654BFA2D57531EAF71 /* Pods_SearchApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		96595C71246FA2EF00F4BEFB /* Persister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persister.swift; sourceTree = "<group>"; };
 		96595C75246FA40200F4BEFB /* PersistanceTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceTask.swift; sourceTree = "<group>"; };
 		96595C77246FE0AC00F4BEFB /* CollectionViewMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewMethods.swift; sourceTree = "<group>"; };
+		96595C7B246FE90200F4BEFB /* PersistanceTaskTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceTaskTests.swift; sourceTree = "<group>"; };
 		FC66D2EE5272135354A0A5B2 /* Pods-SearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchApp.release.xcconfig"; path = "Target Support Files/Pods-SearchApp/Pods-SearchApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,6 +162,7 @@
 			children = (
 				96595921246E82BB00F4BEFB /* SearchAppTests.swift */,
 				96595923246E82BB00F4BEFB /* Info.plist */,
+				96595C7B246FE90200F4BEFB /* PersistanceTaskTests.swift */,
 			);
 			path = SearchAppTests;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96595C7C246FE90200F4BEFB /* PersistanceTaskTests.swift in Sources */,
 				96595922246E82BB00F4BEFB /* SearchAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

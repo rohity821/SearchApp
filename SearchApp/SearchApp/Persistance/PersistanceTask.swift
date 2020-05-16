@@ -23,7 +23,7 @@ class PersistanceTask: Persister {
                 standardUserDefaults.set(array, forKey: key)
             }
         } else {
-            standardUserDefaults.set(value, forKey: key)
+            standardUserDefaults.set([value], forKey: key)
         }
         standardUserDefaults.synchronize()
     }
