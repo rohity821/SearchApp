@@ -16,7 +16,7 @@ protocol ImageSearchControllerInterfaceProtocol where Self: UIViewController {
     var searchPresenter: ImageSearchPresenterInterfaceProtocol? { get set }
 }
 
-class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ImageSearchControllerInterfaceProtocol {
+class ImageSearchViewController: UIViewController, ImageSearchControllerInterfaceProtocol {
     
     @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var errorView: ErrorView!
@@ -24,6 +24,8 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     @IBOutlet var suggestionsView: SuggestionsView!
     private var reachability: Reachability?
     private var isReachable = true
+    private var collectionDatasource: SearchCollectionDataSource?
+    private var collectionDelegate: SearchCollectionDelegate?
     private var controllerState: SearchControllerState? {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -43,15 +45,28 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         controllerState = .showEmptyScreen
         setupSearchBar()
+        setupCollectionDatasourceDelegates()
         suggestionsView.presenter = appBuilder?.getDependencyForSuggestionsView(suggestionView: suggestionsView)
         suggestionsView.delegate = self
         searchPresenter?.presenterDelegate = self
         showErrorView(error: .empty)
     }
     
+    private func setupCollectionDatasourceDelegates() {
+        guard let presenter = searchPresenter else {
+            return
+        }
+        let collectionDatasource = SearchCollectionDataSource(presenter: presenter)
+        imagesCollectionView.dataSource = collectionDatasource
+        self.collectionDatasource = collectionDatasource
+        
+        let collectionDelegate = SearchCollectionDelegate(presenter: presenter, viewController: self)
+        imagesCollectionView.delegate = collectionDelegate
+        self.collectionDelegate = collectionDelegate
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
         do{
           try reachability?.startNotifier()
@@ -77,7 +92,6 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
     }
     
     //MARK: Private Functions
-    
     private func configureViewAsPerState() {
         guard let controllerState = controllerState else {
             return
@@ -157,16 +171,6 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
         }
     }
     
-    private func sizeForItem(collectionView: UICollectionView) -> CGSize {
-        let width = collectionView.frame.size.width
-        let sidePadding : CGFloat = 8.0
-        let noOfCells : CGFloat = 2
-        let noOfPadding : CGFloat = noOfCells+1
-        
-        let itemW = (width - (noOfPadding * sidePadding))/noOfCells
-        return CGSize(width: itemW, height: itemW)
-    }
-    
     private func startSearchFor(searchText: String) {
         if !isReachable {
             controllerState = .showError(error: .noInternet)
@@ -174,41 +178,6 @@ class ImageSearchViewController: UIViewController, UICollectionViewDelegate, UIC
         }
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         searchPresenter?.getDataWithSearchQuery(searchQuery: searchText)
-    }
-
-    //MARK: UICollectionView datasource & delegates
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return searchPresenter?.numberOfItemsInSection(section: section) ?? 0
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return searchPresenter?.numberOfSections(in: collectionView) ?? 0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.cellIdentifier, for: indexPath)
-        if let imageCell = cell as? ImageCollectionViewCell, let imageModel = searchPresenter?.itemForRow(atIndexpath: indexPath) {
-            imageCell.setImage(imagePath: imageModel.previewURL)
-        }
-            return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return sizeForItem(collectionView: collectionView)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 4, bottom: 0, right: 4)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if !isReachable {
-            return
-        }
-        searchPresenter?.fetchNextPageIfRequired(indexPath: indexPath)
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        searchPresenter?.didSelectRow(atIndexpath: indexPath, viewController: self)
     }
 }
 

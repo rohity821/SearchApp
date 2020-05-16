@@ -43,7 +43,7 @@ protocol ImageSearchPresenterInterfaceProtocol {
      /**
       This method is called user taps on a cell in collectionView. Method takes indexpath and view controller as parameter. And correspondingly navigates to another view.
       */
-    func didSelectRow(atIndexpath : IndexPath, viewController:ImageSearchViewController)
+    func didSelectRow(atIndexpath: IndexPath, viewController: UIViewController)
     
     /**
     This method is used to fetch next page when user have scrolled till last - 2 index
@@ -134,7 +134,7 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
         }
     }
     
-    func didSelectRow(atIndexpath: IndexPath, viewController: ImageSearchViewController) {
+    func didSelectRow(atIndexpath: IndexPath, viewController: UIViewController) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if let destinationController = storyboard.instantiateViewController(withIdentifier: "ImagePreviewViewController") as? ImagePreviewInterfaceProtocol {
             destinationController.setImages(images:imagesArray, with: atIndexpath.row)

@@ -32,6 +32,7 @@
 		96595C6F246FA2CB00F4BEFB /* SuggestionsTableInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C6E246FA2CB00F4BEFB /* SuggestionsTableInteractor.swift */; };
 		96595C72246FA2EF00F4BEFB /* Persister.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C71246FA2EF00F4BEFB /* Persister.swift */; };
 		96595C76246FA40300F4BEFB /* PersistanceTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C75246FA40200F4BEFB /* PersistanceTask.swift */; };
+		96595C78246FE0AC00F4BEFB /* CollectionViewMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595C77246FE0AC00F4BEFB /* CollectionViewMethods.swift */; };
 		E80453EAEF9512B050FCCBC8 /* Pods_SearchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6697F2654BFA2D57531EAF71 /* Pods_SearchApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		96595C6E246FA2CB00F4BEFB /* SuggestionsTableInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsTableInteractor.swift; sourceTree = "<group>"; };
 		96595C71246FA2EF00F4BEFB /* Persister.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persister.swift; sourceTree = "<group>"; };
 		96595C75246FA40200F4BEFB /* PersistanceTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceTask.swift; sourceTree = "<group>"; };
+		96595C77246FE0AC00F4BEFB /* CollectionViewMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewMethods.swift; sourceTree = "<group>"; };
 		FC66D2EE5272135354A0A5B2 /* Pods-SearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchApp.release.xcconfig"; path = "Target Support Files/Pods-SearchApp/Pods-SearchApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -206,6 +208,7 @@
 				96595B4C246EF41E00F4BEFB /* PageContentView.swift */,
 				96595B4E246F14DC00F4BEFB /* PageContentView.xib */,
 				96595C6A246F29B800F4BEFB /* SuggestionsView.swift */,
+				96595C77246FE0AC00F4BEFB /* CollectionViewMethods.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96595A56246EA65400F4BEFB /* ImageSearchInteractor.swift in Sources */,
+				96595C78246FE0AC00F4BEFB /* CollectionViewMethods.swift in Sources */,
 				96595C72246FA2EF00F4BEFB /* Persister.swift in Sources */,
 				96595A5B246EC2F100F4BEFB /* ImageCollectionViewCell.swift in Sources */,
 				96595B52246F23C600F4BEFB /* Parser.swift in Sources */,

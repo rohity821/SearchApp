@@ -51,10 +51,6 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="Fah-0R-kQ3"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="6Ny-e1-gri"/>
-                                </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H0l-22-XAv" userLabel="Error View" customClass="ErrorView" customModule="SearchApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
