@@ -20,7 +20,7 @@ struct ImageResponseModel : Codable {
     }
 }
 
-struct ImageDataModel : Codable {
+struct ImageDataModel : Codable, Equatable {
     let largeImageURL : String
     let id : Int
     let pageURL : String
@@ -31,5 +31,9 @@ struct ImageDataModel : Codable {
     var dictionary: [String: Any]? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
         return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
+    }
+    
+    static func ==(lhs: ImageDataModel, rhs: ImageDataModel) -> Bool {
+        return lhs.largeImageURL == rhs.largeImageURL && lhs.id == rhs.id && lhs.pageURL == rhs.pageURL && lhs.type == rhs.type && lhs.userImageURL == rhs.userImageURL && lhs.previewURL == rhs.previewURL
     }
 }
