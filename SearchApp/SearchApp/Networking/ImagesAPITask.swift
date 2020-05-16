@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Keys
 
 protocol ImageAPITaskInterfaceProtocol : class {
     /// Use this function to get the search results from network. This method requires search term and page as the api supports pagination. Returns success or failure based on the network result.
@@ -21,7 +22,7 @@ protocol ImageAPITaskInterfaceProtocol : class {
 
 class ImageAPITask : ImageAPITaskInterfaceProtocol {
     
-    let apiKey = "10028201-f7ffd1c4b91bb9627b124a7b9"
+    let keys = SearchAppKeys()
     
     let defaultSession = URLSession(configuration: .default)
     var dataTask: URLSessionDataTask?
@@ -41,7 +42,7 @@ class ImageAPITask : ImageAPITaskInterfaceProtocol {
     func getSearchResults(searchTerm: String, page:Int,onSuccess:@escaping (ImageResponseModel?)->Void, onFailure:@escaping (Error?)->Void) {
         dataTask?.cancel()
         if var urlComponents = URLComponents(string: baseUrl) {
-            urlComponents.query = "key=\(apiKey)&image_type=photo&pretty=true&q=\(searchTerm)&per_page=\(perPage)&page=\(page)"
+            urlComponents.query = "key=\(keys.pixabayApiKey)&image_type=photo&pretty=true&q=\(searchTerm)&per_page=\(perPage)&page=\(page)"
             guard let url = urlComponents.url else { return }
             
             dataTask = defaultSession.dataTask(with: url) { [weak self] (data, response, error) in
