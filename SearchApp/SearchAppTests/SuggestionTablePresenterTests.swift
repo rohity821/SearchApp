@@ -11,7 +11,6 @@ import XCTest
 
 class SuggestionTablePresenterTests: XCTestCase {
 
-
     func testSuggestionPresenter() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
@@ -27,5 +26,4 @@ class SuggestionTablePresenterTests: XCTestCase {
         let item = presenter.itemForRow(atIndexpath: IndexPath(row: 1, section: 0))
         XCTAssertEqual(item, "Face")
     }
-
 }

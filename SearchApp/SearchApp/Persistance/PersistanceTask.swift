@@ -12,9 +12,9 @@ class PersistanceTask: Persister {
     
     let standardUserDefaults = UserDefaults.standard
     
-    func saveData(value: String, forKey key: String, shouldAppend: Bool) {
+    func saveDataForSuggestions(value: String, forKey key: String, shouldAppend: Bool) {
         if shouldAppend {
-            var array = getDataForKey(key: key) ?? []
+            var array = getDataForSuggestions(for: key) ?? []
             if !array.contains(value) {
                 if array.count >= 10 {
                     array.removeFirst()
@@ -26,9 +26,10 @@ class PersistanceTask: Persister {
             standardUserDefaults.set([value], forKey: key)
         }
         standardUserDefaults.synchronize()
+        NotificationCenter.default.post(name: .SuggestionsUpdated, object: nil)
     }
     
-    func getDataForKey(key: String) -> [String]? {
+    func getDataForSuggestions(for key: String) -> [String]? {
         return standardUserDefaults.array(forKey: key) as? [String]
     }
 }

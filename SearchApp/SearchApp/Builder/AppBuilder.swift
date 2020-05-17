@@ -23,7 +23,8 @@ class Builder: AppBuilder {
         let rootController = storyboard.instantiateViewController(withIdentifier: "ImageSearchViewController") as? ImageSearchControllerInterfaceProtocol
         
         let apiTask = ImageAPITask(parser: ImageResponseParser(), url: ImageSearchAPI.imageSearchUrl)
-        let persitanceTask = PersistanceTask()
+        // We have two implementations of persistance, one is that uses NSUserdefaults (PersistanceTask) and other is that uses a plist (WriterTask) to save data
+        let persitanceTask = WriterTask.shared() //PersistanceTask()
         let interactor = ImageSearchInteractor(searchQueryTask: apiTask, persister:persitanceTask)
         let presenter = ImageSearchPresenter(searchInteractor: interactor)
         rootController?.searchPresenter = presenter
@@ -36,7 +37,7 @@ class Builder: AppBuilder {
     }
     
     func getDependencyForSuggestionsView(suggestionView: SuggestionsView) -> SuggestionsPresenterInterfaceProtocol {
-        let persister = PersistanceTask()
+        let persister = WriterTask.shared() //PersistanceTask()
         let suggestionsInteractor = SuggestionsTableInteractor(persister: persister)
         let suggestionsPresenter = SuggestionTablePresenter(interactor: suggestionsInteractor, delegate: suggestionView)
         return suggestionsPresenter

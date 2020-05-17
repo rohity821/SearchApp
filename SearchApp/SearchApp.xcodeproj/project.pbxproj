@@ -44,6 +44,8 @@
 		96595EB72470551200F4BEFB /* PersistanceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595EB62470551200F4BEFB /* PersistanceMock.swift */; };
 		96595EB92470E2BF00F4BEFB /* SuggestionsTableInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595EB82470E2BF00F4BEFB /* SuggestionsTableInteractorTests.swift */; };
 		96595EBB2470E43800F4BEFB /* SuggestionTablePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595EBA2470E43800F4BEFB /* SuggestionTablePresenterTests.swift */; };
+		96595EBE2470E9AB00F4BEFB /* ThreadSafePlistTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595EBC2470E9AB00F4BEFB /* ThreadSafePlistTask.swift */; };
+		96595EBF2470E9AB00F4BEFB /* WriterTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96595EBD2470E9AB00F4BEFB /* WriterTask.swift */; };
 		E80453EAEF9512B050FCCBC8 /* Pods_SearchApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6697F2654BFA2D57531EAF71 /* Pods_SearchApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +105,8 @@
 		96595EB62470551200F4BEFB /* PersistanceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceMock.swift; sourceTree = "<group>"; };
 		96595EB82470E2BF00F4BEFB /* SuggestionsTableInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionsTableInteractorTests.swift; sourceTree = "<group>"; };
 		96595EBA2470E43800F4BEFB /* SuggestionTablePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionTablePresenterTests.swift; sourceTree = "<group>"; };
+		96595EBC2470E9AB00F4BEFB /* ThreadSafePlistTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThreadSafePlistTask.swift; sourceTree = "<group>"; };
+		96595EBD2470E9AB00F4BEFB /* WriterTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WriterTask.swift; sourceTree = "<group>"; };
 		FC66D2EE5272135354A0A5B2 /* Pods-SearchApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SearchApp.release.xcconfig"; path = "Target Support Files/Pods-SearchApp/Pods-SearchApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -262,6 +266,8 @@
 		96595C70246FA2D700F4BEFB /* Persistance */ = {
 			isa = PBXGroup;
 			children = (
+				96595EBC2470E9AB00F4BEFB /* ThreadSafePlistTask.swift */,
+				96595EBD2470E9AB00F4BEFB /* WriterTask.swift */,
 				96595C71246FA2EF00F4BEFB /* Persister.swift */,
 				96595C75246FA40200F4BEFB /* PersistanceTask.swift */,
 			);
@@ -463,6 +469,7 @@
 				96595A56246EA65400F4BEFB /* ImageSearchInteractor.swift in Sources */,
 				96595C78246FE0AC00F4BEFB /* CollectionViewMethods.swift in Sources */,
 				96595C72246FA2EF00F4BEFB /* Persister.swift in Sources */,
+				96595EBF2470E9AB00F4BEFB /* WriterTask.swift in Sources */,
 				96595A5B246EC2F100F4BEFB /* ImageCollectionViewCell.swift in Sources */,
 				96595B52246F23C600F4BEFB /* Parser.swift in Sources */,
 				96595C69246F253000F4BEFB /* AppBuilder.swift in Sources */,
@@ -472,6 +479,7 @@
 				9659590B246E82B900F4BEFB /* AppDelegate.swift in Sources */,
 				96595A46246E903700F4BEFB /* ImageResponseModel.swift in Sources */,
 				96595A4B246E93FC00F4BEFB /* ImageSearchAPI.swift in Sources */,
+				96595EBE2470E9AB00F4BEFB /* ThreadSafePlistTask.swift in Sources */,
 				96595A49246E90D100F4BEFB /* ImagesAPITask.swift in Sources */,
 				96595B49246EEF0E00F4BEFB /* ImagePreviewViewController.swift in Sources */,
 				96595B4D246EF41E00F4BEFB /* PageContentView.swift in Sources */,

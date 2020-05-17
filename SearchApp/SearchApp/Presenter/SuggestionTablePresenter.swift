@@ -53,6 +53,11 @@ class SuggestionTablePresenter: SuggestionsPresenterInterfaceProtocol {
         self.interactor = interactor
         self.delegate = delegate
         getDataForSuggestions()
+        NotificationCenter.default.addObserver(self, selector: #selector(getDataForSuggestions), name: .SuggestionsUpdated, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .SuggestionsUpdated, object: nil)
     }
     
     //MARK: SuggestionsPresenterInterfaceProtocol methods
@@ -60,7 +65,7 @@ class SuggestionTablePresenter: SuggestionsPresenterInterfaceProtocol {
         return suggestions.count > 0
     }
     
-    func getDataForSuggestions() {
+    @objc func getDataForSuggestions() {
         suggestions = interactor.getData(for: Constants.persistanceKey)
     }
     

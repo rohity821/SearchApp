@@ -16,23 +16,23 @@ class PersistanceTaskTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
         let persistanceTask =  PersistanceTask()
-        persistanceTask.saveData(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
         
-        if let savedKeys = persistanceTask.getDataForKey(key: Constants.persistanceKey) {
+        if let savedKeys = persistanceTask.getDataForSuggestions(for: Constants.persistanceKey) {
             XCTAssert(savedKeys.contains("Facebook"), "Test case failed. Doesn't contain Facebook")
         }
         
-        persistanceTask.saveData(value: "Not Append", forKey: Constants.persistanceKey, shouldAppend: false)
-        if let savedKeys = persistanceTask.getDataForKey(key: Constants.persistanceKey) {
+        persistanceTask.saveDataForSuggestions(value: "Not Append", forKey: Constants.persistanceKey, shouldAppend: false)
+        if let savedKeys = persistanceTask.getDataForSuggestions(for: Constants.persistanceKey) {
             XCTAssert(savedKeys.count == 1, "Test case failed. count is not 1")
         }
         
-        persistanceTask.saveData(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "Face", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "help", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "hey", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "Facelook", forKey: Constants.persistanceKey, shouldAppend: true)
-        if let savedKeys = persistanceTask.getDataForKey(key: Constants.persistanceKey) {
+        persistanceTask.saveDataForSuggestions(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "Face", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "help", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "hey", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "Facelook", forKey: Constants.persistanceKey, shouldAppend: true)
+        if let savedKeys = persistanceTask.getDataForSuggestions(for: Constants.persistanceKey) {
             XCTAssert(savedKeys.count == 6, "Test case failed. count is not 6")
             XCTAssert(savedKeys.contains("Face"), "Test case failed. Doesnot contain face")
             XCTAssert(savedKeys.contains("hey"), "Test case failed. Does not contain hey")
@@ -42,23 +42,23 @@ class PersistanceTaskTests: XCTestCase {
     
     func testPersistance() {
         let persistanceTask = PersistanceTaskMock()
-        persistanceTask.saveData(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
         
-        if let savedKeys = persistanceTask.getDataForKey(key: Constants.persistanceKey) {
+        if let savedKeys = persistanceTask.getDataForSuggestions(for: Constants.persistanceKey) {
             XCTAssert(savedKeys.contains("Facebook"), "Test case failed. Doesn't contain Facebook")
         }
         
-        persistanceTask.saveData(value: "Not Append", forKey: Constants.persistanceKey, shouldAppend: false)
-        if let savedKeys = persistanceTask.getDataForKey(key: Constants.persistanceKey) {
+        persistanceTask.saveDataForSuggestions(value: "Not Append", forKey: Constants.persistanceKey, shouldAppend: false)
+        if let savedKeys = persistanceTask.getDataForSuggestions(for: Constants.persistanceKey) {
             XCTAssert(savedKeys.count == 1, "Test case failed. count is not 1")
         }
         
-        persistanceTask.saveData(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "Face", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "help", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "hey", forKey: Constants.persistanceKey, shouldAppend: true)
-        persistanceTask.saveData(value: "Facelook", forKey: Constants.persistanceKey, shouldAppend: true)
-        if let savedKeys = persistanceTask.getDataForKey(key: Constants.persistanceKey) {
+        persistanceTask.saveDataForSuggestions(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "Face", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "help", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "hey", forKey: Constants.persistanceKey, shouldAppend: true)
+        persistanceTask.saveDataForSuggestions(value: "Facelook", forKey: Constants.persistanceKey, shouldAppend: true)
+        if let savedKeys = persistanceTask.getDataForSuggestions(for: Constants.persistanceKey) {
             XCTAssert(savedKeys.count == 6, "Test case failed. count is not 6")
             XCTAssert(savedKeys.contains("Face"), "Test case failed. Doesnot contain face")
             XCTAssert(savedKeys.contains("hey"), "Test case failed. Does not contain hey")

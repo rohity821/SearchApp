@@ -26,7 +26,7 @@ class SuggestionsTableInteractor: SuggestionsInteractorInterfaceProtocol {
     }
     
     func getData(for key: String) -> [String] {
-        return persister.getDataForKey(key: key) ?? []
+        return persister.getDataForSuggestions(for: key) ?? []
     }
     
     

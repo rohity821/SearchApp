@@ -69,7 +69,7 @@ class ImageSearchInteractor: ImageSearchInteractorInterfaceProtocol  {
         searchQueryTask.getSearchResults(searchTerm: finalQuery, page: page, onSuccess: { [weak self] (imageResponse) in
             if let imgModel = imageResponse {
                 self?.delegate?.didFetchPhotos(result: .success(imageModel: imgModel))
-                self?.persister.saveData(value: finalQuery, forKey: Constants.persistanceKey, shouldAppend: true)
+                self?.persister.saveDataForSuggestions(value: finalQuery, forKey: Constants.persistanceKey, shouldAppend: true)
             }
         }) { [weak self] (error) in
             self?.delegate?.didFetchPhotos(result: .failure(error: SearchErrors.parsingError))

@@ -28,6 +28,10 @@ struct Constants {
     static let mainStoryboard = "Main"
 }
 
+extension NSNotification.Name {
+    public static let SuggestionsUpdated = NSNotification.Name("suggestionsUpdated")
+}
+
 enum SearchErrors: Error {
     case noInternet
     case parsingError

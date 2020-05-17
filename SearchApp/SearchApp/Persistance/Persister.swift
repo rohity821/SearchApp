@@ -17,13 +17,13 @@ protocol Persister {
     ///   - value: the value which has to be saved
     ///   - key: they key for which value has to be saved
     ///   - shouldAppend: whether or not to append the values into existing saved values
-    func saveData(value:String, forKey key:String, shouldAppend:Bool)
+    func saveDataForSuggestions(value:String, forKey key:String, shouldAppend:Bool)
     
     /// A function that gets all the saved values for a given key from persistance
     ///
     /// - Parameters:
     ///   - key: they key for which value has to be fetched
     /// - Returns: Array of strings, all the values which are stored.
-    func getDataForKey(key:String) -> [String]?
+    func getDataForSuggestions(for key:String) -> [String]?
     
 }

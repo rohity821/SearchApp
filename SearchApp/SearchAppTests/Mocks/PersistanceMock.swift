@@ -10,11 +10,12 @@ import Foundation
 @testable import SearchApp
 
 class PersistanceTaskMock: Persister {
+    
     var persistedDict = [String:[String]]()
     
-    func saveData(value: String, forKey key: String, shouldAppend: Bool) {
+    func saveDataForSuggestions(value: String, forKey key: String, shouldAppend: Bool) {
         if shouldAppend {
-            var array = getDataForKey(key: key) ?? []
+            var array = getDataForSuggestions(for: key) ?? []
             if !array.contains(value) {
                 if array.count >= 10 {
                     array.removeFirst()
@@ -27,15 +28,14 @@ class PersistanceTaskMock: Persister {
         }
     }
     
-    func getDataForKey(key: String) -> [String]? {
+    func getDataForSuggestions(for key: String) -> [String]? {
         return persistedDict[key]
     }
     
-    
     func saveMockValues() {
-        self.saveData(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
-        self.saveData(value: "Face", forKey: Constants.persistanceKey, shouldAppend: true)
-        self.saveData(value: "help", forKey: Constants.persistanceKey, shouldAppend: true)
+        self.saveDataForSuggestions(value: "Facebook", forKey: Constants.persistanceKey, shouldAppend: true)
+        self.saveDataForSuggestions(value: "Face", forKey: Constants.persistanceKey, shouldAppend: true)
+        self.saveDataForSuggestions(value: "help", forKey: Constants.persistanceKey, shouldAppend: true)
     }
     
 }
