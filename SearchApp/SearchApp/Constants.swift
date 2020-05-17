@@ -26,6 +26,8 @@ struct Constants {
     static let searchBarPlaceholder = "Search Images"
     static let imagePreviewViewController = "ImagePreviewViewController"
     static let mainStoryboard = "Main"
+    static let noDataAlertTitle = "No Data found"
+    static let okTitle = "OK"
 }
 
 extension NSNotification.Name {

@@ -179,6 +179,21 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
         searchPresenter?.getDataWithSearchQuery(searchQuery: searchText)
     }
+    
+    private func showAlert(error: SearchErrors) {
+        if !Thread.isMainThread {
+            DispatchQueue.main.async {
+                self.showAlert(error: error)
+            }
+            return
+        }
+        if error == .noData {
+            let alertController = UIAlertController(title: Constants.noDataAlertTitle, message: ErrorStrings.noResultsFound, preferredStyle: .alert)
+            let alertAction = UIAlertAction(title: Constants.okTitle, style: .destructive, handler: nil)
+            alertController.addAction(alertAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
 }
 
 extension ImageSearchViewController: ImageSearchPresenterDelegate, SuggestionsTableDelegate {
@@ -192,6 +207,8 @@ extension ImageSearchViewController: ImageSearchPresenterDelegate, SuggestionsTa
         case .failure(let error):
             if let err = error {
                 controllerState = .showError(error: err)
+                // This is added to show an alert as the requirement was to show alert when there is no data. It has been  handled with Error Screen.
+                showAlert(error: err)
             }
         }
     }
