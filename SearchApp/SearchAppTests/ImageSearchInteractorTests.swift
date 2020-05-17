@@ -15,7 +15,6 @@ class ImageSearchInteractorTests: XCTestCase {
     
     func testFetchData() {
         let mockInteractor = ImageSearchInteractorMock()
-        
         mockInteractor.getResultsForSearch(searchQuery: "hello")
         XCTAssert(mockInteractor.getResultsForSearchCalled)
         mockInteractor.getNextPageForSearch(searchQuery: "hello")

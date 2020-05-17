@@ -49,7 +49,7 @@ class SuggestionTablePresenter: SuggestionsPresenterInterfaceProtocol {
     
     private var suggestions = [String]()
     
-    init(interactor: SuggestionsInteractorInterfaceProtocol, delegate: SuggestionPresenterDelegate) {
+    init(interactor: SuggestionsInteractorInterfaceProtocol, delegate: SuggestionPresenterDelegate?) {
         self.interactor = interactor
         self.delegate = delegate
         getDataForSuggestions()
