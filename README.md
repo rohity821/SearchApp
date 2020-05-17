@@ -49,8 +49,10 @@ let persitanceTask = PersistanceTask() //WriterTask.shared()
 if we remove ```PersistanceTask()``` and uncomment ```WriterTask.shared()``` the data storage for furthur requests should change from UserDefaults to plist. 
 Note: we are not migrating data between UserDefaults and Plist, if we switch between different persistances storage. 
 
-
-
+## Third Party Libraries Used : 
+1. [Kingfisher](https://github.com/onevcat/Kingfisher)
+2. [NVActivityIndicatorView](https://github.com/ninjaprox/NVActivityIndicatorView)
+3. [ReachabilitySwift](https://github.com/ashleymills/Reachability.swift)
 
 
 
