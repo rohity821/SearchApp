@@ -27,6 +27,12 @@ class WriterTask : NSObject, Persister {
         return dataPlist
     }()
     
+    /// A function that saves data into the persistant storage with the given key and value
+    ///
+    /// - Parameters:
+    ///   - value: the value which has to be saved
+    ///   - key: they key for which value has to be saved
+    ///   - shouldAppend: whether or not to append the values into existing saved values
     private func getCacheDataDirectory() -> String {
         let path : String = ((NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]) as String)
         let destPath : String = path.appending("/Data")
@@ -40,7 +46,6 @@ class WriterTask : NSObject, Persister {
         return destPath
     }
     
-    
     private func writeData(searchResponse:[String], key:String) {
         if searchResponse.count == 0 {
             return
@@ -52,14 +57,13 @@ class WriterTask : NSObject, Persister {
         plistTask.tryExpnesiveWrite(expnesiveWrite: true)
     }
     
-    
     private func readData(key: String) -> [String]? {
         if let tValue = plistTask.valueForKey(key: key) as? Data, let responseArray = NSKeyedUnarchiver.unarchiveObject(with: tValue) as? Array<String> {
             return responseArray
         }
         return nil
     }
-    
+
     func saveDataForSuggestions(value:String, forKey key:String, shouldAppend:Bool) {
         if value.isEmpty {
             return

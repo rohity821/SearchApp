@@ -12,6 +12,7 @@ struct ImageSearchAPI {
     
     static let urlScheme = "https"
     static let pixabayHost = "pixabay.com"
-    static let imageSearchUrl = "\(urlScheme)://\(pixabayHost)/api/"
+    static let apiPath = "api/"
+    static let imageSearchUrl = "\(urlScheme)://\(pixabayHost)/\(apiPath)"
     
 }

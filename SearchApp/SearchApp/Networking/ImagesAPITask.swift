@@ -22,27 +22,37 @@ protocol ImageAPITaskInterfaceProtocol : class {
 
 class ImageAPITask : ImageAPITaskInterfaceProtocol {
     
-    let keys = SearchAppKeys()
+    private let keys = SearchAppKeys()
     
-    let defaultSession = URLSession(configuration: .default)
-    var dataTask: URLSessionDataTask?
+    private let defaultSession = URLSession(configuration: .default)
+    private var dataTask: URLSessionDataTask?
     
-    var parser: Parser
-    var baseUrl: String
+    private var parser: Parser
+    private var baseUrl: String
+    
+    var imageResults: ImageResponseModel?
+    let perPage = 30
     
     init(parser: Parser, url: String) {
         self.parser = parser
         baseUrl = url
     }
     
-    var imageResults: ImageResponseModel?
+    // MARK: private helper functions
+    /// Use this function to get the query string for api call for searching image.
+    ///
+    /// - Parameters:
+    ///   - searchTerm: the search term entered by user.
+    ///   - page: the page which should be fetch. 1 if it is a fresh or new search and increased accordingly if any request is made for same search term.
+    private func getQueryForImageSearch(searchTerm:String, page:Int) -> String {
+        return "key=\(keys.pixabayApiKey)&image_type=photo&pretty=true&q=\(searchTerm)&per_page=\(perPage)&page=\(page)"
+    }
     
-    let perPage = 30
-    
+    //MARK: ImageAPITaskInterfaceProtocol methods
     func getSearchResults(searchTerm: String, page:Int,onSuccess:@escaping (ImageResponseModel?)->Void, onFailure:@escaping (Error?)->Void) {
         dataTask?.cancel()
         if var urlComponents = URLComponents(string: baseUrl) {
-            urlComponents.query = "key=\(keys.pixabayApiKey)&image_type=photo&pretty=true&q=\(searchTerm)&per_page=\(perPage)&page=\(page)"
+            urlComponents.query = getQueryForImageSearch(searchTerm: searchTerm, page: page)
             guard let url = urlComponents.url else { return }
             
             dataTask = defaultSession.dataTask(with: url) { [weak self] (data, response, error) in
