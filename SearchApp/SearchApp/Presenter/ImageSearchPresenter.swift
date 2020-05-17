@@ -82,6 +82,7 @@ class ImageSearchPresenter :ImageSearchPresenterInterfaceProtocol, ImageSearchIn
         imagesArray.removeAll()
     }
     
+    // this method is responsible for fetching the next page if search query is not empty.
     private func getNextPage() {
         if searchQuery.isEmpty {
             return

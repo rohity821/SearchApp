@@ -9,6 +9,12 @@
 import UIKit
 
 protocol ImagePreviewInterfaceProtocol where Self: UIViewController {
+    
+    /// A function sets the images array to be displayed on screen with currentIndex to display.
+    ///
+    /// - Parameters:
+    ///   - images: an array of ImageDataModel objects which represents all the images being fetched till now.
+    ///   - currentIndex: the current index from which we have to display the image.
     func setImages(images:[ImageDataModel], with currentIndex: Int)
 }
 
@@ -29,13 +35,15 @@ class ImagePreviewViewController: UIViewController, ImagePreviewInterfaceProtoco
         pageViewController.view.frame = self.view.bounds
     }
     
+    //MARK: ImagePreviewInterfaceProtocol methods
     func setImages(images:[ImageDataModel], with currentIndex: Int) {
         self.images = images
         currentPageIndex = currentIndex
-        let _ = configurePageContentController()
+        configurePageContentController()
     }
     
     //MARK: Private helper functions
+    /// This methods adds the pageviewcontroller as a childview controller to the view
     private func addPageViewController() {
         pageViewController.dataSource = self
         addChild(pageViewController)
@@ -43,12 +51,17 @@ class ImagePreviewViewController: UIViewController, ImagePreviewInterfaceProtoco
         pageViewController.didMove(toParent: self)
     }
     
-    private func configurePageContentController() -> PageContentViewInterfaceProtocol{
+    /// Call this method to set up the first view controller in pagecontroller once the images array is set.
+    private func configurePageContentController(){
         let pageController = viewControllerAtIndex(index: currentPageIndex)
         self.pageViewController.setViewControllers([pageController], direction: .forward, animated: false, completion: nil)
-        return pageController
     }
     
+    /// Call this method to get the viewController for a corresponding index.
+    ///
+    /// - Parameters:
+    /// - index: index for which we need the viewcontroller
+    /// - Returns: a object of viewcontroller which conforms to PageContentViewInterfaceProtocol
     private func viewControllerAtIndex(index: Int) -> PageContentViewInterfaceProtocol {
         let pageController = PageContentView(nibName: "PageContentView", bundle: nil)
         pageController.index = index

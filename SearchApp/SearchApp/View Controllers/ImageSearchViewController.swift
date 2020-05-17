@@ -49,9 +49,9 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         suggestionsView.presenter = appBuilder?.getDependencyForSuggestionsView(suggestionView: suggestionsView)
         suggestionsView.delegate = self
         searchPresenter?.presenterDelegate = self
-        showErrorView(error: .empty)
     }
     
+    /// Use this function to set the collection view datasource and delegates to different files. for collection view,  we are using SearchCollectionDataSource & SearchCollectionDelegate
     private func setupCollectionDatasourceDelegates() {
         guard let presenter = searchPresenter else {
             return
@@ -80,6 +80,7 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: reachability)
     }
     
+    /// Notification observer for reachability change. use the notification according to your need.
     @objc func reachabilityChanged(note: Notification) {
         if let reachability = note.object as? Reachability {
             switch reachability.connection {
@@ -92,6 +93,7 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
     }
     
     //MARK: Private Functions
+    /// This function configures the view as the current state of view controller stated by var controllerState. This methods decides which component to show based on the state.
     private func configureViewAsPerState() {
         guard let controllerState = controllerState else {
             return
@@ -119,12 +121,14 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         }
     }
     
+    /// Call this funciton to hide or show the views available in the viewcontroller hierarchy.
     private func hideView(hideErrorView: Bool, hideSuggestionsView: Bool, hideColletionView: Bool) {
         errorView.isHidden = hideErrorView
         suggestionsView?.isHidden = hideSuggestionsView
         imagesCollectionView.isHidden = hideColletionView
     }
     
+    /// This method configures and adds the search bar into the navigation item of navigation bar.
     private func setupSearchBar() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.obscuresBackgroundDuringPresentation = false
@@ -135,6 +139,10 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         searchController.searchBar.delegate = self
     }
     
+    // This method configures the error view according to the type of error. If this method is not called on main thread, it recalls itself on main thread to ensure that all the view related functions or accessing the view is done on main thread to avoid any crashes.
+    ///
+    /// - Parameters:
+    /// - error: Custom SearchErrors object that are available .
     private func showErrorView(error: SearchErrors?) {
         if !Thread.isMainThread {
             DispatchQueue.main.async { [weak self] in
@@ -142,11 +150,10 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
             }
             return
         }
-        imagesCollectionView.isHidden = true
-        errorView.isHidden = false
         errorView?.configureErrorView(for: error)
     }
     
+    // This method reloads the collection view. If this method is not called on main thread, it recalls itself on main thread to ensure that all the view related functions or accessing the view is done on main thread to avoid any crashes.
     private func reloadCollectionView() {
         if !Thread.isMainThread {
             DispatchQueue.main.async { [weak self] in
@@ -157,6 +164,7 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         imagesCollectionView.reloadData()
     }
     
+    // This method reloads the suggestion view. If there are no suggetions to display then it sets the controller state to show empty view. If this method is not called on main thread, it recalls itself on main thread to ensure that all the view related functions or accessing the view is done on main thread to avoid any crashes.
     private func reloadSuggestions() {
         if !Thread.isMainThread {
             DispatchQueue.main.async { [weak self] in
@@ -171,6 +179,10 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         }
     }
     
+    // This method inititates the search for the term user has entered. This methods checks if the network is reachable then only it sends the requests otherwise it just updates the view to show error screen.
+    ///
+    /// - Parameters:
+    /// - searchText: the search text entered by user.
     private func startSearchFor(searchText: String) {
         if !isReachable {
             controllerState = .showError(error: .noInternet)
@@ -180,6 +192,10 @@ class ImageSearchViewController: UIViewController, ImageSearchControllerInterfac
         searchPresenter?.getDataWithSearchQuery(searchQuery: searchText)
     }
     
+    // This method shows an alert for the error, when there is no data available. Although this has been handled by error screen also. But it was mentioned in the requirement docs to show an alert.
+    ///
+    /// - Parameters:
+    /// - error: The SearchErrors object
     private func showAlert(error: SearchErrors) {
         if !Thread.isMainThread {
             DispatchQueue.main.async {
@@ -252,6 +268,7 @@ extension ImageSearchViewController {
 
 extension ImageSearchViewController : UISearchBarDelegate {
 
+    /// Call this method to dismiss the keyboard
     @objc func dismissKeyboard() {
         navigationItem.searchController?.isActive = false
         navigationItem.searchController?.searchBar.resignFirstResponder()

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// class for data source of Collection view
 class SearchCollectionDataSource: NSObject, UICollectionViewDataSource {
     
     var searchPresenter: ImageSearchPresenterInterfaceProtocol
@@ -34,6 +35,7 @@ class SearchCollectionDataSource: NSObject, UICollectionViewDataSource {
     }
 }
 
+// Class for delegate of collectionview
 class SearchCollectionDelegate: NSObject, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     var searchPresenter: ImageSearchPresenterInterfaceProtocol

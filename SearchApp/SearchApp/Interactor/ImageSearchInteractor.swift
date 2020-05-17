@@ -61,6 +61,11 @@ class ImageSearchInteractor: ImageSearchInteractorInterfaceProtocol  {
     }
     
     //MARK: private functions
+    /// This function fetches the search results for search query entered by user from the api task class.
+    ///
+    /// - Parameters:
+    ///   - searchQuery: the search query entered by user
+    ///   - page: the page which needs to be fetched for current search.
     private func getResultsForSearch(searchQuery:String, page:Int) {
         let finalQuery = searchQuery.replacingOccurrences(of: " ", with: "+")
         if finalQuery.isEmpty {
