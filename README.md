@@ -26,6 +26,33 @@ The generated Objective-C classes are stored in the Pods/CocoaPodsKeys directory
 You can read more about [Cocoapods-keys here](https://github.com/orta/cocoapods-keys)
 
 
-## SearchApp 
+## SearchApp
+
+![ezgif-1-84eb6c69519b](https://user-images.githubusercontent.com/5212286/82136852-a8236c00-982f-11ea-8ca8-342835c6dbd9.gif)
+
+![ezgif-1-ccbe5c441ae6](https://user-images.githubusercontent.com/5212286/82136877-0d775d00-9830-11ea-86eb-569d5aa4ed78.gif)
+
+![ezgif-1-7e979e0be398](https://user-images.githubusercontent.com/5212286/82136897-58917000-9830-11ea-939c-8690f0df1c35.gif)
+
+
+## Persistance 
+There are two flows for persistance. Since the data set was small and contained only 10 recent searches, database is not used. The flows are : 
+1. Saving data in plist. (PersistanceTask)
+2. Saving data in UserDefaults. (WriterTask)
+
+Only one is active at a time. Both of the classes which are responsible for writing data into storage are conforming to Persister protocol, which makes it easy to replace the underlying storage without impacting any other code. For example, 
+in class Builder, at line 27 and 40
+
+```
+let persitanceTask = PersistanceTask() //WriterTask.shared()
+```
+if we remove ```PersistanceTask()``` and uncomment ```WriterTask.shared()``` the data storage for furthur requests should change from UserDefaults to plist. 
+Note: we are not migrating data between UserDefaults and Plist, if we switch between different persistances storage. 
+
+
+
+
+
+
 
 
