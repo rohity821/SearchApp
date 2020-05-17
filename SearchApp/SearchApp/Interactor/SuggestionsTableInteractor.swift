@@ -19,12 +19,13 @@ protocol SuggestionsInteractorInterfaceProtocol {
 
 class SuggestionsTableInteractor: SuggestionsInteractorInterfaceProtocol {
     
-    let persister: Persister
+    private let persister: Persister
     
     init(persister: Persister) {
         self.persister = persister
     }
     
+    //MARK: SuggestionsInteractorInterfaceProtocol
     func getData(for key: String) -> [String] {
         return persister.getDataForSuggestions(for: key) ?? []
     }

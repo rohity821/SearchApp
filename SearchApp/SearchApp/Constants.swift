@@ -52,7 +52,13 @@ enum SearchErrors: Error {
             return ErrorStrings.startSearching
         }
     }
-    
+}
+
+struct ErrorStrings {
+    static let somethingWentWrong = "Oops! Something went wrong. Our Great minds are working on it."
+    static let noInternetError = "We had trouble reaching our servers. Pls check your internet connection."
+    static let startSearching = "Start searching from the search bar above and see a plethora of images."
+    static let noResultsFound = "Looks like you have searched for something unique!"
 }
 
 enum ResultType {

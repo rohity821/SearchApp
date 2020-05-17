@@ -28,6 +28,7 @@ class PageContentView: UIViewController, PageContentViewInterfaceProtocol {
         }
     }
     
+    /// this methods sets the image into the page content view's image view to display on screen after user have tapped on the corresponding image from the collectionview.
     private func setupImage(imagePath: String) {
         let url = URL(string: imagePath)
         imageView.kf.indicatorType = .activity

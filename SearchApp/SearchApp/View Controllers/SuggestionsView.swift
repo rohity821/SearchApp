@@ -12,6 +12,17 @@ protocol SuggestionsTableDelegate {
     func didSelectSuggestion(suggestions: String, for view:UIView)
 }
 
+protocol SuggestionsViewInterfaceProtocol {
+    /// This method tells whether we can show suggestions or not.
+    ///
+    /// - Returns: a boolen value indicating whether or not we can show the suggestions.
+    func canDisplaySuggestions() -> Bool
+    
+    /// This method makes the request to get  the suggestions saved in persistance. and reloads the table view
+    ///
+    func loadSuggestions()
+}
+
 class SuggestionsView: UIView, SuggestionPresenterDelegate {
     
     @IBOutlet var suggestionsTable: UITableView!
@@ -26,6 +37,7 @@ class SuggestionsView: UIView, SuggestionPresenterDelegate {
         suggestionsTable.tableFooterView = UIView()
     }
     
+    //MARK: SuggestionsViewInterfaceProtocol methods
     func canDisplaySuggestions() -> Bool {
         return presenter?.canDisplaySuggestions() ?? false
     }
@@ -35,6 +47,7 @@ class SuggestionsView: UIView, SuggestionPresenterDelegate {
         suggestionsTable.reloadData()
     }
     
+    //MARK: SuggestionPresenterDelegate method
     func didSelectSuggestion(suggestion: String) {
         delegate?.didSelectSuggestion(suggestions: suggestion, for: self)
     }
@@ -55,9 +68,7 @@ extension SuggestionsView: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.text = suggestion
         return cell
     }
-    
-//    tableviewdid
-    
+        
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         presenter?.didSelectRow(atIndexpath: indexPath, view: self)

@@ -18,6 +18,10 @@ class ImageCollectionViewCell: UICollectionViewCell {
         self.imageView.contentMode = .scaleAspectFill
     }
     
+    /// Call this method to set image in the image view from imagePath given
+    ///
+    /// - Parameters:
+    /// - imagePath: a string containing the url path for image.
     func setImage(imagePath:String) {
         let url = URL(string: imagePath)
         imageView.kf.indicatorType = .activity

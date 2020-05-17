@@ -39,6 +39,10 @@ protocol SuggestionsPresenterInterfaceProtocol {
 }
 
 protocol SuggestionPresenterDelegate {
+    /// This method tells the delegate the user have selected a suggestion and it passes the selected string to that view.
+    ///
+    /// - Parameters:
+    ///   - suggestion: the search suggestion on which user have tapped.
     func didSelectSuggestion(suggestion: String)
 }
 
