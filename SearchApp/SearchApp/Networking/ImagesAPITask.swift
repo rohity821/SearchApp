@@ -22,7 +22,7 @@ protocol ImageAPITaskInterfaceProtocol : class {
 
 class ImageAPITask : ImageAPITaskInterfaceProtocol {
     
-    private let keys = SearchAppKeys()
+    private let key = "10028201-f7ffd1c4b91bb9627b124a7b9"
     
     private let defaultSession = URLSession(configuration: .default)
     private var dataTask: URLSessionDataTask?
@@ -45,7 +45,7 @@ class ImageAPITask : ImageAPITaskInterfaceProtocol {
     ///   - searchTerm: the search term entered by user.
     ///   - page: the page which should be fetch. 1 if it is a fresh or new search and increased accordingly if any request is made for same search term.
     private func getQueryForImageSearch(searchTerm:String, page:Int) -> String {
-        return "key=\(keys.pixabayApiKey)&image_type=photo&pretty=true&q=\(searchTerm)&per_page=\(perPage)&page=\(page)"
+        return "key=\(key)&image_type=photo&pretty=true&q=\(searchTerm)&per_page=\(perPage)&page=\(page)"
     }
     
     //MARK: ImageAPITaskInterfaceProtocol methods
