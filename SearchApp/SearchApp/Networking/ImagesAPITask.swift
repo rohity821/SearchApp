@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Keys
 
 protocol ImageAPITaskInterfaceProtocol : class {
     /// Use this function to get the search results from network. This method requires search term and page as the api supports pagination. Returns success or failure based on the network result.
